@@ -1,0 +1,179 @@
+{
+  "api": {
+    "name": "BluetoothAudioPlugin",
+    "slug": "bluetoothaudioplugin",
+    "docs": "",
+    "tags": [],
+    "methods": [
+      {
+        "name": "getConnectedDevices",
+        "signature": "() => Promise<DevicesListResponse>",
+        "parameters": [],
+        "returns": "Promise<DevicesListResponse>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [
+          "DevicesListResponse"
+        ],
+        "slug": "getconnecteddevices"
+      },
+      {
+        "name": "addListener",
+        "signature": "(eventName: 'connectivity_status', listenerFunc: (event: ConnectivityStatusEventResponse) => void) => Promise<PluginListenerHandle> & PluginListenerHandle",
+        "parameters": [
+          {
+            "name": "eventName",
+            "docs": "",
+            "type": "'connectivity_status'"
+          },
+          {
+            "name": "listenerFunc",
+            "docs": "",
+            "type": "(event: ConnectivityStatusEventResponse) => void"
+          }
+        ],
+        "returns": "Promise<PluginListenerHandle> & PluginListenerHandle",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [
+          "PluginListenerHandle",
+          "ConnectivityStatusEventResponse"
+        ],
+        "slug": "addlistenerconnectivity_status"
+      },
+      {
+        "name": "removeAllListeners",
+        "signature": "() => Promise<void>",
+        "parameters": [],
+        "returns": "Promise<void>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [],
+        "slug": "removealllisteners"
+      }
+    ],
+    "properties": []
+  },
+  "interfaces": [
+    {
+      "name": "DevicesListResponse",
+      "slug": "deviceslistresponse",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "devices",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [
+            "DeviceResponse"
+          ],
+          "type": "DeviceResponse[]"
+        }
+      ]
+    },
+    {
+      "name": "DeviceResponse",
+      "slug": "deviceresponse",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "address",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "id",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "class",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "PluginListenerHandle",
+      "slug": "pluginlistenerhandle",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "remove",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "() => Promise<void>"
+        }
+      ]
+    },
+    {
+      "name": "ConnectivityStatusEventResponse",
+      "slug": "connectivitystatuseventresponse",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "device",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [
+            "DeviceResponse"
+          ],
+          "type": "DeviceResponse"
+        },
+        {
+          "name": "connected",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [
+            "Boolean"
+          ],
+          "type": "Boolean"
+        }
+      ]
+    },
+    {
+      "name": "Boolean",
+      "slug": "boolean",
+      "docs": "",
+      "tags": [],
+      "methods": [
+        {
+          "name": "valueOf",
+          "signature": "() => boolean",
+          "parameters": [],
+          "returns": "boolean",
+          "tags": [],
+          "docs": "Returns the primitive value of the specified object.",
+          "complexTypes": [],
+          "slug": "valueof"
+        }
+      ],
+      "properties": []
+    }
+  ],
+  "enums": [],
+  "typeAliases": [],
+  "pluginConfigs": []
+}
