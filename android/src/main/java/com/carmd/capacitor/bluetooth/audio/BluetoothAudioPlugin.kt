@@ -1,6 +1,8 @@
 package com.carmd.capacitor.bluetooth.audio
 
 import android.annotation.SuppressLint
+import android.bluetooth.BluetoothAdapter
+import android.bluetooth.BluetoothAdapter.EXTRA_STATE
 import android.bluetooth.BluetoothDevice
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -35,6 +37,13 @@ class BluetoothAudioPlugin : Plugin() {
                     }
                 }
             }
+
+            if (intent?.action == BluetoothAdapter.ACTION_STATE_CHANGED) {
+                val extraState = intent?.getIntExtra(EXTRA_STATE, -1)
+                if (extraState == BluetoothAdapter.STATE_OFF) {
+                    notifyConnectivityStatus(null, false)
+                }
+            }
         }
     }
 
@@ -45,6 +54,7 @@ class BluetoothAudioPlugin : Plugin() {
         val intentFilter = IntentFilter()
         intentFilter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED)
         intentFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED)
+        intentFilter.addAction(BluetoothAdapter.ACTION_STATE_CHANGED)
         activity.registerReceiver(broadcastReceiver, intentFilter)
     }
 
@@ -64,19 +74,19 @@ class BluetoothAudioPlugin : Plugin() {
         }
     }
 
-    private fun notifyConnectivityStatus(device: BluetoothDevice, connected: Boolean) {
+    private fun notifyConnectivityStatus(device: BluetoothDevice?, connected: Boolean) {
         val obj = JSObject()
         obj.put("device", deviceToJSObject(device))
         obj.put("connected", connected)
         notifyListeners(EVENT_CONNECTIVITY_STATUS, obj)
     }
 
-    private fun deviceToJSObject(device: BluetoothDevice): JSObject {
+    private fun deviceToJSObject(device: BluetoothDevice?): JSObject {
         val obj = JSObject()
-        obj.put("name", device.name)
-        obj.put("address", device.address)
-        obj.put("id", device.address)
-        device.bluetoothClass?.let {
+        obj.put("name", device?.name ?: "all")
+        obj.put("address", device?.address ?: "all")
+        obj.put("id", device?.address ?: "all")
+        device?.bluetoothClass?.let {
             obj.put("class", it.deviceClass)
         }
         return obj
