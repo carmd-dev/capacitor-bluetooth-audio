@@ -5,5 +5,10 @@ export class BluetoothAudioWeb extends WebPlugin {
             devices: []
         };
     }
+    async isAudioPlaying() {
+        return {
+            isAudioPlaying: true
+        };
+    }
 }
 //# sourceMappingURL=web.js.map

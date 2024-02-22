@@ -12,6 +12,13 @@ public class BluetoothAudioPlugin: CAPPlugin {
     public override func load() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleRouteChange), name: AVAudioSession.routeChangeNotification, object: nil)
     }
+
+    @objc func isAudioPlaying(_ call: CAPPluginCall) {
+        let audioSession = AVAudioSession.sharedInstance()
+        call.resolve([
+            "isAudioPlaying": audioSession.isOtherAudioPlaying
+        ]);
+    }
     
     @objc func getConnectedDevices(_ call: CAPPluginCall) {
         let audioSession = AVAudioSession.sharedInstance()

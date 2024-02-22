@@ -50,6 +50,18 @@
         "docs": "",
         "complexTypes": [],
         "slug": "removealllisteners"
+      },
+      {
+        "name": "isAudioPlaying",
+        "signature": "() => Promise<CheckAudioPlayingResponse>",
+        "parameters": [],
+        "returns": "Promise<CheckAudioPlayingResponse>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [
+          "CheckAudioPlayingResponse"
+        ],
+        "slug": "isaudioplaying"
       }
     ],
     "properties": []
@@ -171,6 +183,22 @@
         }
       ],
       "properties": []
+    },
+    {
+      "name": "CheckAudioPlayingResponse",
+      "slug": "checkaudioplayingresponse",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "isAudioPlaying",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "boolean"
+        }
+      ]
     }
   ],
   "enums": [],

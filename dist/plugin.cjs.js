@@ -14,6 +14,11 @@ class BluetoothAudioWeb extends core.WebPlugin {
             devices: []
         };
     }
+    async isAudioPlaying() {
+        return {
+            isAudioPlaying: true
+        };
+    }
 }
 
 var web = /*#__PURE__*/Object.freeze({

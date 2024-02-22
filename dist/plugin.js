@@ -11,6 +11,11 @@ var capacitorBluetoothAudio = (function (exports, core) {
                 devices: []
             };
         }
+        async isAudioPlaying() {
+            return {
+                isAudioPlaying: true
+            };
+        }
     }
 
     var web = /*#__PURE__*/Object.freeze({

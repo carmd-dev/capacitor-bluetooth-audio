@@ -1,6 +1,6 @@
 import { WebPlugin } from '@capacitor/core';
 
-import type { BluetoothAudioPlugin, DevicesListResponse } from './definitions';
+import type { BluetoothAudioPlugin, CheckAudioPlayingResponse, DevicesListResponse } from './definitions';
 
 export class BluetoothAudioWeb
   extends WebPlugin
@@ -10,5 +10,11 @@ export class BluetoothAudioWeb
       return {
         devices: []
       }
+  }
+
+  async isAudioPlaying(): Promise<CheckAudioPlayingResponse> {
+    return {
+      isAudioPlaying: true
+    }
   }
 }

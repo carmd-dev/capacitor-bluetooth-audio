@@ -16,6 +16,7 @@ npx cap sync
 * [`getConnectedDevices()`](#getconnecteddevices)
 * [`addListener('connectivity_status', ...)`](#addlistenerconnectivity_status)
 * [`removeAllListeners()`](#removealllisteners)
+* [`isAudioPlaying()`](#isaudioplaying)
 * [Interfaces](#interfaces)
 
 </docgen-index>
@@ -55,6 +56,17 @@ addListener(eventName: 'connectivity_status', listenerFunc: (event: Connectivity
 ```typescript
 removeAllListeners() => Promise<void>
 ```
+
+--------------------
+
+
+### isAudioPlaying()
+
+```typescript
+isAudioPlaying() => Promise<CheckAudioPlayingResponse>
+```
+
+**Returns:** <code>Promise&lt;<a href="#checkaudioplayingresponse">CheckAudioPlayingResponse</a>&gt;</code>
 
 --------------------
 
@@ -99,5 +111,12 @@ removeAllListeners() => Promise<void>
 | Method      | Signature        | Description                                          |
 | ----------- | ---------------- | ---------------------------------------------------- |
 | **valueOf** | () =&gt; boolean | Returns the primitive value of the specified object. |
+
+
+#### CheckAudioPlayingResponse
+
+| Prop                 | Type                 |
+| -------------------- | -------------------- |
+| **`isAudioPlaying`** | <code>boolean</code> |
 
 </docgen-api>
