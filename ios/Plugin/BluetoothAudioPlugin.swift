@@ -9,8 +9,12 @@ import AVFAudio
 @objc(BluetoothAudioPlugin)
 public class BluetoothAudioPlugin: CAPPlugin {
     
+    var connectedDevices: Set<AVAudioSessionPortDescription> = [];
+    
     public override func load() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleRouteChange), name: AVAudioSession.routeChangeNotification, object: nil)
+        
+        self.connectedDevices = self.getSupportedDevices()
     }
 
     @objc func isAudioPlaying(_ call: CAPPluginCall) {
@@ -21,10 +25,10 @@ public class BluetoothAudioPlugin: CAPPlugin {
     }
     
     @objc func getConnectedDevices(_ call: CAPPluginCall) {
-        let audioSession = AVAudioSession.sharedInstance()
-        
         var devicesList = JSArray()
-        for device in self.getSupportedDevices(audioSession.currentRoute) {
+        
+        self.connectedDevices = self.getSupportedDevices()
+        for device in self.connectedDevices {
             devicesList.append(self.deviceToJSObject(device))
         }
         call.resolve([
@@ -39,11 +43,10 @@ public class BluetoothAudioPlugin: CAPPlugin {
             return
         }
         
-        let session = AVAudioSession.sharedInstance()
-        let currentRoute = session.currentRoute
-        let previousRoute = userInfo[AVAudioSessionRouteChangePreviousRouteKey] as? AVAudioSessionRouteDescription
-        let currentDevices = self.getSupportedDevices(currentRoute)
-        let previousDevices = previousRoute != nil ? self.getSupportedDevices(previousRoute!) : []
+        let previousDevices = self.connectedDevices;
+        let currentDevices = self.getSupportedDevices()
+        self.connectedDevices = currentDevices;
+        
         let changes = currentDevices.symmetricDifference(previousDevices)
         
         switch reason {
@@ -67,18 +70,29 @@ public class BluetoothAudioPlugin: CAPPlugin {
         notifyListeners("connectivity_status", data: obj)
     }
     
-    private func getSupportedDevices(_ route: AVAudioSessionRouteDescription) -> Set<AVAudioSessionPortDescription> {
+    private func getSupportedDevices() -> Set<AVAudioSessionPortDescription> {
         let supportedPorts = [
             AVAudioSession.Port.bluetoothA2DP,
             AVAudioSession.Port.bluetoothHFP,
             AVAudioSession.Port.bluetoothLE
         ]
+        
+        let audioSession = AVAudioSession.sharedInstance()
+        do {
+            try audioSession.setCategory(.record, options: .allowBluetooth)
+        } catch {
+            print(error)
+        }
+        
         var devices: Set<AVAudioSessionPortDescription> = []
-        for device in route.inputs + route.outputs {
-            if (supportedPorts.contains(device.portType)) {
-                devices.insert(device)
+        if let inputs = audioSession.availableInputs {
+            for device in inputs {
+                if (supportedPorts.contains(device.portType)) {
+                    devices.insert(device)
+                }
             }
         }
+        
         return devices
     }
     
