@@ -79,17 +79,20 @@ public class BluetoothAudioPlugin: CAPPlugin {
         
         let audioSession = AVAudioSession.sharedInstance()
         do {
-            try audioSession.setCategory(.record, options: .allowBluetooth)
+            try audioSession.setCategory(.playAndRecord, options: .allowBluetooth)
         } catch {
             print(error)
         }
         
+        let allAvailableDevices = audioSession.currentRoute.inputs 
+            + audioSession.currentRoute.outputs
+            + (audioSession.availableInputs ?? [])
         var devices: Set<AVAudioSessionPortDescription> = []
-        if let inputs = audioSession.availableInputs {
-            for device in inputs {
-                if (supportedPorts.contains(device.portType)) {
-                    devices.insert(device)
-                }
+        for device in allAvailableDevices {
+            if (supportedPorts.contains(device.portType) && !devices.contains(where: { d in
+                d.uid == device.uid
+            })) {
+                devices.insert(device)
             }
         }
         
