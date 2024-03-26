@@ -90,7 +90,7 @@ public class BluetoothAudioPlugin: CAPPlugin {
         var devices: Set<AVAudioSessionPortDescription> = []
         for device in allAvailableDevices {
             if (supportedPorts.contains(device.portType) && !devices.contains(where: { d in
-                d.uid == device.uid
+                self.getDeviceUniqueId(d) == self.getDeviceUniqueId(device)
             })) {
                 devices.insert(device)
             }
@@ -99,11 +99,19 @@ public class BluetoothAudioPlugin: CAPPlugin {
         return devices
     }
     
+    private func getDeviceUniqueId(_ device: AVAudioSessionPortDescription) -> String {
+        let arr = device.uid.components(separatedBy: "-");
+        if (arr.count > 0) {
+            return arr[0];
+        }
+        return device.uid;
+    }
+    
     private func deviceToJSObject(_ device: AVAudioSessionPortDescription) -> JSObject {
         let obj : JSObject = [
             "name": device.portName ,
             "id": device.uid,
-            "address": device.uid,
+            "address": self.getDeviceUniqueId(device),
             "class": device.portType.rawValue
         ]
         return obj
